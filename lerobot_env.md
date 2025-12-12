@@ -43,48 +43,48 @@ conda activate lerobot
 
 ```bash
 lerobot-train \
-    --policy.path=HuggingFaceVLA/smolvla_libero \
-    --dataset.repo_id=HuggingFaceVLA/libero \
-    --env.type=libero \
-    --env.task=libero_10 \
-    --output_dir=./outputs/ \
-    --steps=100000 \
-    --eval.batch_size=1 \
-    --eval.n_episodes=1 \
-    --eval_freq=1000 \
-    --save_freq=1000 \
-    --save_checkpoint=True \
-    --policy.push_to_hub=false \
-    --num_workers=32 \
-    --batch_size=256 \
-    --dataset.root=/home/kemove/.cache/huggingface/smolvla_datasets/libero
+    --policy.path=HuggingFaceVLA/smolvla_libero \ # 使用 Hugging Face 上的 smolvla_libero 预训练策略
+    --dataset.repo_id=HuggingFaceVLA/libero \ # 使用 libero 数据集
+    --env.type=libero \ # 仿真环境类型为 libero
+    --env.task=libero_10 \ # 具体的任务集为 libero_10
+    --output_dir=./outputs/ \ # 训练输出目录
+    --steps=100000 \ # 训练总步数
+    --eval.batch_size=1 \ # 评估时的 batch size
+    --eval.n_episodes=1 \ # 评估时的 episode 数量
+    --eval_freq=1000 \ # 每 1000 步评估一次
+    --save_freq=1000 \ # 每 1000 步保存一次检查点
+    --save_checkpoint=True \ # 启用保存检查点
+    --policy.push_to_hub=false \ # 不自动上传模型到 Hub
+    --num_workers=32 \ # 数据加载使用的进程数
+    --batch_size=256 \ # 训练的 batch size
+    --dataset.root=/home/kemove/.cache/huggingface/smolvla_datasets/libero # 数据集本地根目录
 ```
 
 ### 评估
 
 ```bash
 lerobot-eval \
-    --policy.path=HuggingFaceVLA/smolvla_libero \
-    --env.type=libero \
-    --env.task=libero_object \
-    --eval.batch_size=1 \
-    --eval.n_episodes=10 \
-    --policy.n_action_steps=10
+    --policy.path=HuggingFaceVLA/smolvla_libero \ # 使用 Hugging Face 上的 smolvla_libero 策略进行评估
+    --env.type=libero \ # 仿真环境类型
+    --env.task=libero_object \ # 评估的具体任务集
+    --eval.batch_size=1 \ # 评估 batch size
+    --eval.n_episodes=10 \ # 评估运行的 episode 数量
+    --policy.n_action_steps=10 # 策略每次推理输出的动作步数
 ```
 
 ## PI0 训练
 
 ```bash
 lerobot-train \
-    --policy.path=/home/kemove/hyp/lerobot/pretrained_models/pi05_libero \
-    --dataset.repo_id=HuggingFaceVLA/libero \
-    --dataset.root=$HOME/.cache/huggingface/smolvla_datasets/libero \
-    --batch_size=32 \
-    --steps=6000 \
-    --save_freq=2000 \
-    --output_dir=outputs/pi05_libero_official_reproduce \
-    --policy.push_to_hub=false \
-    --wandb.enable=true \
-    --policy.gradient_checkpointing=true \
-    --resume=true
+    --policy.path=/home/kemove/hyp/lerobot/pretrained_models/pi05_libero \ # 预训练模型路径（本地绝对路径）
+    --dataset.repo_id=HuggingFaceVLA/libero \ # 数据集 ID
+    --dataset.root=$HOME/.cache/huggingface/smolvla_datasets/libero \ # 数据集本地缓存路径
+    --batch_size=32 \ # 训练 batch size
+    --steps=6000 \ # 训练总步数
+    --save_freq=2000 \ # 每 2000 步保存一次
+    --output_dir=outputs/pi05_libero_official_reproduce \ # 输出目录
+    --policy.push_to_hub=false \ # 不上传到 Hub
+    --wandb.enable=true \ # 启用 Weights & Biases 记录日志
+    --policy.gradient_checkpointing=true \ # 启用梯度检查点（节省显存）
+    --resume=true # 如果存在检查点，则恢复训练
 ```
