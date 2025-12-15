@@ -159,6 +159,7 @@ sbatch*.sh
 ### Miscellaneous ###
 # W&B
 wandb/
+wandb_config.sh     # Wandb 配置文件
 
 # Dev scripts
 .dev/
